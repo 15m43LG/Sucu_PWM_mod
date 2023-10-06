@@ -37,10 +37,10 @@ documentation:
   inputs:               
     - clk
     - enable
-    - [4:0] control
-    - none
-    - none
-    - none
+    - control1
+    - control2
+    - control3
+    - control4
     - none
     - none
 # A description of what the outputs do (e.g. status LED, SPI MISO, etc)

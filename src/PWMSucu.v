@@ -19,7 +19,7 @@ logic [7:0] cont1, cont2, cont4, cont8;
 
 always_comb begin
     control = ui_in;
-    uo_out = out;
+    assign uo_out = out;
 end
 
 initial begin

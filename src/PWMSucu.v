@@ -11,7 +11,7 @@ module tt_um_15m43LG(
 
 
 logic [7:0] control;
-logic [7:0] out;
+var logic [7:0] out;
 logic clk1, clk2, clk4, clk8, clk16, en1, en2, en4, en8;
 logic [7:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
 logic [7:0] lim1, lim2, lim4, lim8;
@@ -19,7 +19,7 @@ logic [7:0] cont1, cont2, cont4, cont8;
 
 always_comb begin
     control = ui_in;
-    uo_out = out;
+    assign uo_out = out;
 end
 
 initial begin

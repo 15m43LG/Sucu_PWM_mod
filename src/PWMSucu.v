@@ -16,11 +16,11 @@ module tt_um_15m43LG(
   logic [7:0] cont1, cont2, cont4, cont8; 
 
 
-  always_comb begin
-      lim1 = (ui_in >> 1) + 'b1;
-      lim2 = (ui_in >> 2) + 'b1;
-      lim4 = (ui_in >> 3) + 'b1;
-      lim8 = (ui_in >> 4) + 'b1;
+  always_ff @(posedge clk) begin
+      lim1 <= (ui_in >> 1) + 'b1;
+      lim2 <= (ui_in >> 2) + 'b1;
+      lim4 <= (ui_in >> 3) + 'b1;
+      lim8 <= (ui_in >> 4) + 'b1;
   end
 
 

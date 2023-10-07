@@ -11,7 +11,7 @@ module tt_um_15m43LG(
 
 
   logic [7:0] control;
-  logic [7:0] out;
+  logic  out;
   logic clk1, clk2, clk4, clk8, clk16, en1, en2, en4, en8;
   logic [7:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
   logic [7:0] lim1, lim2, lim4, lim8;
@@ -126,13 +126,14 @@ module tt_um_15m43LG(
       if (!ena) begin
           out  = 0;
       end else begin
-        out [0] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
+        out  = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
+        
       end
 
   end
 
   always_comb begin
-      uo_out = out;
+    uo_out [0] = out;
   end
 
 endmodule

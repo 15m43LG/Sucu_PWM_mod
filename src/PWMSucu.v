@@ -1,14 +1,26 @@
 module tt_um_15m43LG(
-    input wire clk,
-    input wire [4:0] control,
-    input wire enable,
-    output wire out
+    input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
+    output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
+    input  wire [7:0] uio_in,   // IOs: Bidirectional Input path
+    output wire [7:0] uio_out,  // IOs: Bidirectional Output path
+    output wire [7:0] uio_oe,   // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
+    input  wire       ena,      // will go high when the design is enabled
+    input  wire       clk,      // clock
+    input  wire       rst_n     // reset_n - low to reset
 );
 
+
+logic [7:0] control;
+logic [7:0] out;
 logic clk1, clk2, clk4, clk8, clk16, en1, en2, en4, en8;
-logic [4:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
-logic [4:0] lim1, lim2, lim4, lim8;
-logic [4:0] cont1, cont2, cont4, cont8; 
+logic [7:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
+logic [7:0] lim1, lim2, lim4, lim8;
+logic [7:0] cont1, cont2, cont4, cont8; 
+
+always_comb begin
+    control = ui_in;
+    uo_out = out;
+end
 
 initial begin
     cont1 = 0;
@@ -122,10 +134,10 @@ always_comb begin
 end 
 
 always_comb begin
-    if (!enable) begin
-        out = 0;
+    if (!ena) begin
+        out  = 0;
     end else begin
-        out = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
+      out [0] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
     end
     
 end

@@ -9,8 +9,6 @@ module tt_um_15m43LG(
     input  wire       rst_n     // reset_n - low to reset
 );
 
-
-  logic [7:0] control;
   logic  out;
   logic clk1, clk2, clk4, clk8, clk16, en1, en2, en4, en8;
   logic [7:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
@@ -18,28 +16,11 @@ module tt_um_15m43LG(
   logic [7:0] cont1, cont2, cont4, cont8; 
 
   always_comb begin
-      control = ui_in;
+      lim1 = (ui_in >> 1) + 'b1;
+      lim2 = (ui_in >> 2) + 'b1;
+      lim4 = (ui_in >> 3) + 'b1;
+      lim8 = (ui_in >> 4) + 'b1;
   end
-
-
-
-  always_comb begin
-      tempcontrol1 = control;
-      tempcontrol2 = control;
-      tempcontrol4 = control;
-      tempcontrol8 = control;
-
-      tempcontrol1 = (tempcontrol1 >> 1) + 'b1;
-      tempcontrol2 = (tempcontrol2 >> 2) + 'b1;
-      tempcontrol4 = (tempcontrol4 >> 3) + 'b1;
-      tempcontrol8 = (tempcontrol8 >> 4) + 'b1;
-
-      lim1 = tempcontrol1;
-      lim2 = tempcontrol2; 
-      lim4 = tempcontrol4;
-      lim8 = tempcontrol8;
-  end
-
 
   always_comb begin
       clk1 = clk;
@@ -61,7 +42,6 @@ module tt_um_15m43LG(
       clk16 <= !clk16;
   end
 
-
   always_ff @(posedge clk1) begin
     if ((cont1 >= 'b10000) | rst_n) begin
           cont1 <= 'b1;
@@ -69,6 +49,7 @@ module tt_um_15m43LG(
           cont1 <= cont1 + 'b1;
       end
   end
+    
   always_comb begin
       if (cont1 > lim1) begin
           en1 = 0;
@@ -84,6 +65,7 @@ module tt_um_15m43LG(
           cont2 <= cont2 + 'b1;
       end
   end
+    
   always_comb begin
       if (cont2 > lim2) begin
           en2 = 0;
@@ -99,6 +81,7 @@ module tt_um_15m43LG(
           cont4 <= cont4 + 'b1;
       end
   end
+    
   always_comb begin
       if (cont4 > lim4) begin
           en4 = 0;
@@ -114,6 +97,7 @@ module tt_um_15m43LG(
           cont8 <= cont8 + 'b1;
       end
   end
+    
   always_comb begin
       if (cont8 > lim8) begin
           en8 = 0;
@@ -126,14 +110,18 @@ module tt_um_15m43LG(
       if (!ena) begin
           out  = 0;
       end else begin
-        out  = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-        
+        out  = ((clk1 & ui_in[0] & en1) | (clk2 & ui_in[1] & en2) | (clk4 & ui_in[2] & en4) | (clk8 & ui_in[3] & en8) | (clk16 & ui_in[4]));
       end
-
   end
-
+    
   always_comb begin
-    uo_out [0] = out;
+    uo_out[0] = out;
+    uo_out[1] = out;
+    uo_out[2] = out;
+    uo_out[3] = out;
+    uo_out[4] = out;
+    uo_out[5] = out;
+    uo_out[6] = out;
+    uo_out[7] = out;
   end
-
 endmodule

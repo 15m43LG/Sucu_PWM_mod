@@ -2,8 +2,8 @@ module tt_um_15m43LG(
     input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
     output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
     input  wire [7:0] uio_in,   // IOs: Bidirectional Input path
- //   output wire [7:0] uio_out,  // IOs: Bidirectional Output path
- //   output wire [7:0] uio_oe,   // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
+    output wire [7:0] uio_out,  // IOs: Bidirectional Output path
+    output wire [7:0] uio_oe,   // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
     input  wire       ena,      // will go high when the design is enabled
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
@@ -23,25 +23,25 @@ always_comb begin
 end
 
 always_comb begin
-   assign tempcontrol1 = control;
-   assign tempcontrol2 = control;
-   assign tempcontrol4 = control;
-   assign tempcontrol8 = control;
+    tempcontrol1 = control;
+    tempcontrol2 = control;
+    tempcontrol4 = control;
+    tempcontrol8 = control;
 
     tempcontrol1 = (tempcontrol1 >> 1) + 'b1;
     tempcontrol2 = (tempcontrol2 >> 2) + 'b1;
     tempcontrol4 = (tempcontrol4 >> 3) + 'b1;
     tempcontrol8 = (tempcontrol8 >> 4) + 'b1;
 
-   assign lim1 = tempcontrol1;
-   assign lim2 = tempcontrol2; 
-   assign lim4 = tempcontrol4;
-   assign lim8 = tempcontrol8;
+    lim1 = tempcontrol1;
+    lim2 = tempcontrol2; 
+    lim4 = tempcontrol4;
+    lim8 = tempcontrol8;
 end
 
 
 always_comb begin
-   assign clk1 = clk;
+    clk1 = clk;
 end
 
 always_ff @(posedge clk) begin
@@ -70,9 +70,9 @@ always_ff @(posedge clk1) begin
 end
 always_comb begin
     if (cont1 > lim1) begin
-       assign en1 = 0;
+        en1 = 0;
     end else begin
-       assign en1 = 1;
+        en1 = 1;
     end
 end 
 
@@ -126,13 +126,6 @@ always_comb begin
         out  = 0;
     end else begin
       out [0] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [1] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [2] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [3] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [4] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [5] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [6] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
-      out [7] = ((clk1 & control[0] & en1) | (clk2 & control[1] & en2) | (clk4 & control[2] & en4) | (clk8 & control[3] & en8) | (clk16 & control[4]));
     end
     
 end

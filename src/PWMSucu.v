@@ -11,7 +11,7 @@ module tt_um_15m43LG(
 
 
 logic [7:0] control;
-var logic [7:0] out;
+logic [7:0] out;
 logic clk1, clk2, clk4, clk8, clk16, en1, en2, en4, en8;
 logic [7:0] tempcontrol1, tempcontrol2, tempcontrol4, tempcontrol8;
 logic [7:0] lim1, lim2, lim4, lim8;
@@ -20,18 +20,6 @@ logic [7:0] cont1, cont2, cont4, cont8;
 always_comb begin
     control = ui_in;
     uo_out = out;
-end
-
-initial begin
-    cont1 = 0;
-    cont2 = 0;
-    cont4 = 0;
-    cont8 = 0;
-    clk1 = 0;
-    clk2 = 0;
-    clk4 = 0;
-    clk8 = 0;
-    clk16 = 0;
 end
 
 always_comb begin
@@ -74,7 +62,7 @@ end
 
 
 always_ff @(posedge clk1) begin
-    if (cont1 >= 'b10000) begin
+  if ((cont1 >= 'b10000) | rst_n) begin
         cont1 <= 'b1;
     end else begin
         cont1 <= cont1 + 'b1;
@@ -89,7 +77,7 @@ always_comb begin
 end 
 
 always_ff @(posedge clk2) begin
-    if (cont2 >= 'b1000) begin
+  if ((cont2 >= 'b1000) | rst_n) begin
         cont2 <= 'b1;
     end else begin
         cont2 <= cont2 + 'b1;
@@ -104,7 +92,7 @@ always_comb begin
 end 
 
 always_ff @(posedge clk4) begin
-    if (cont4 >= 'b100) begin
+  if ((cont4 >= 'b100) | rst_n) begin
         cont4 <= 'b1;
     end else begin
         cont4 <= cont4 + 'b1;
@@ -119,7 +107,7 @@ always_comb begin
 end 
 
 always_ff @(posedge clk8) begin
-    if (cont8 >= 'b10) begin
+  if ((cont8 >= 'b10) | rst_n) begin
         cont8 <= 'b1;
     end else begin
         cont8 <= cont8 + 'b1;
